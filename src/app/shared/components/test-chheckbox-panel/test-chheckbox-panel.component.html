@@ -1,0 +1,20 @@
+<section class="example-section">
+  <span class="example-list-section">
+    @if (selectAllCheckbox()) {
+    <mat-checkbox class="example-margin" [formControl]="parentCheckbox">
+      {{ selectAllCheckboxLabel() }}
+    </mat-checkbox>
+    }
+  </span>
+  <span class="example-list-section">
+    <ul>
+      @for (key of options; track key) {
+      <li>
+        <mat-checkbox [(ngModel)]="toggleOptions()[key].value" (change)="handleChange($event.checked)">
+          {{ toggleOptions()[key].label }}
+        </mat-checkbox>
+      </li>
+      }
+    </ul>
+  </span>
+</section>

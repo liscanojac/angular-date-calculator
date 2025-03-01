@@ -1,0 +1,6 @@
+<p>calculator-display works!</p>
+@for (key of dateDifferenceKeys; track key) {
+@if (dateOptions()[key]) {
+<p>{{ dateDifference()[key] }}</p>
+}
+}

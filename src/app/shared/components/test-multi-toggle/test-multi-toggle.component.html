@@ -1,0 +1,10 @@
+<section>
+  <h3 class="text-red-400">Multiple selection</h3>
+  <mat-button-toggle-group name="time-selection" aria-label="time-selection" multiple class="custom-toggle-group">
+    @for (key of options; track key) {
+    <mat-button-toggle [checked]="toggleOptions()[key].value" (change)="toggleOptions()[key].value= $event.source.checked">
+      {{ toggleOptions()[key].label }}
+    </mat-button-toggle>
+    }
+  </mat-button-toggle-group>
+</section>

@@ -179,6 +179,29 @@
   <div class="content">
     <div class="left-side">
       <app-logo></app-logo>
+      <app-calculator-display [dateDifference]="timeDifference" [dateOptions]="getDateOptions()" />
+      @if (true) {
+      <app-datepicker [dateInput]="startDate" (updateDateInput)="startDate = $event" [maxDate]="addDaysToDate(endDate, -1)" />
+      <app-datepicker [dateInput]="endDate" (updateDateInput)="endDate =  $event" [minDate]="addDaysToDate(startDate, 1)" />
+      <app-calculator-button [disabled]="!calculatorBtnEnabled()" (clickAction)="testFunct()" />
+      }
+      @if (false) {
+      <app-input-text-test [inputValue]="testInputText" (inputChange)="handleTextInputChange($event)" />
+      <p>testInputText: {{ testInputText }}</p>
+      }
+      @if (false) {
+      <app-input-check-test [inputModel]="testInputCheck" (inputChange)="handleInputCheckChange($event)" />
+      <p>testInputCheck: {{ testInputCheck }}</p>
+      }
+      @if (true) {
+      <app-options-checkbox [checkboxOptions]="dateDifferenceOptions" [selectAllCheckbox]="true" />
+      }
+      @if (false) {
+      <app-test-slide-panel [toggleOptions]="dateDifferenceOptions" />
+      }
+      @if (false) {
+      <app-test-chheckbox-panel [toggleOptions]="dateDifferenceOptions" [selectAllCheckbox]="true" />
+      }
       <h1>Hello, {{ title }}</h1>
       <p>Congratulations! Your app is running. 🎉</p>
     </div>

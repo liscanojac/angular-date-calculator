@@ -1,0 +1,9 @@
+<mat-form-field>
+  <mat-label>{{ label.placeholder }}</mat-label>
+  <input matInput [min]="minDate2()" [max]="max" [matDatepicker]="picker" [ngModel]="dateInput()" (ngModelChange)="updateDateInput.emit($event)">
+  @if (label.showHint) {
+  <mat-hint>{{ label.hint }}</mat-hint>
+  }
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>

@@ -1,0 +1,3 @@
+@for (key of options; track key) {
+<p><mat-slide-toggle [(ngModel)]="toggleOptions()[key].value">{{ toggleOptions()[key].label }}</mat-slide-toggle></p>
+}
