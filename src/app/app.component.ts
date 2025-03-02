@@ -13,10 +13,12 @@ import { dateCalculator } from './shared/services/dateCalculatorInstance';
 import { OptionsCheckboxComponent } from './shared/components/options-checkbox/options-checkbox.component';
 import { CheckboxOptions } from './shared/interfaces/checkbox-options';
 import { CalculatorDisplayComponent } from './shared/components/calculator-display/calculator-display.component';
+import { ModeSelectorRadioComponent } from './shared/components/mode-selector-radio/mode-selector-radio.component';
+import { RadioGroup } from './shared/interfaces/radio-group';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LogoComponent, InputTextTestComponent, InputCheckTestComponent, TestSlidePanelComponent, TestChheckboxPanelComponent, DatepickerComponent, CalculatorButtonComponent, OptionsCheckboxComponent, CalculatorDisplayComponent],
+  imports: [RouterOutlet, LogoComponent, InputTextTestComponent, InputCheckTestComponent, TestSlidePanelComponent, TestChheckboxPanelComponent, DatepickerComponent, CalculatorButtonComponent, OptionsCheckboxComponent, CalculatorDisplayComponent, ModeSelectorRadioComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -32,9 +34,24 @@ export class AppComponent {
     w_d: '',
     d: ''
   }
+  calculatorMode = 'date-difference'
+  modeOptions: RadioGroup = [
+    {
+      label: 'Date Difference',
+      value: 'date-difference'
+    },
+    {
+      label: 'Add/Subtract from a Date',
+      value: 'date-travel'
+    }
+  ]
+
+  setLimitDates(date: Date | undefined, n: number): Date | undefined {
+    return date ? dateCalculator.addDays(date, n, false) : date
+  }
 
   addDaysToDate(date: Date | undefined, n: number): Date | undefined {
-    return date ? dateCalculator.addDays(date, n, false) : date
+    return date ? dateCalculator.addDays(date, n) : date
   }
 
   dateDifferenceOptions: CheckboxOptions = {
@@ -76,7 +93,6 @@ export class AppComponent {
     }
     return false
   }
-  handleDateChange(newDate: Date) {}
 
   handleTextInputChange(newInput: string) {
     this.testInputText = newInput

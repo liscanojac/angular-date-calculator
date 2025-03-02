@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DatepickerLabel } from '../../interfaces/datepicker';
 const defaultMinDate = new Date(2000, 0, 1)
+import { dateCalculator } from '../../services/dateCalculatorInstance';
 const defaultMaxDate = new Date(defaultMinDate.getUTCFullYear() + 10, defaultMinDate.getUTCMonth(), defaultMinDate.getUTCDate())
 
 @Component({
@@ -30,6 +31,7 @@ export class DatepickerComponent {
   }
   min: Date = defaultMinDate
   max: Date = defaultMaxDate
+
   ngOnInit() {
     this.label = {...this.label, ...this.inputLabel()};
     this.min = this.minDate() ?? this.min

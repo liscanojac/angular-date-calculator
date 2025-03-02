@@ -179,10 +179,11 @@
   <div class="content">
     <div class="left-side">
       <app-logo></app-logo>
+      <app-mode-selector-radio [options]="modeOptions" (radioOptionChanged)="calculatorMode = $event" [selectedOption]="calculatorMode" />
       <app-calculator-display [dateDifference]="timeDifference" [dateOptions]="getDateOptions()" />
       @if (true) {
-      <app-datepicker [dateInput]="startDate" (updateDateInput)="startDate = $event" [maxDate]="addDaysToDate(endDate, -1)" />
-      <app-datepicker [dateInput]="endDate" (updateDateInput)="endDate =  $event" [minDate]="addDaysToDate(startDate, 1)" />
+      <app-datepicker [dateInput]="startDate" (updateDateInput)="startDate = $event" [maxDate]="setLimitDates(endDate, -1)" />
+      <app-datepicker [dateInput]="endDate" (updateDateInput)="endDate =  $event" [minDate]="setLimitDates(startDate, 1)" />
       <app-calculator-button [disabled]="!calculatorBtnEnabled()" (clickAction)="testFunct()" />
       }
       @if (false) {
