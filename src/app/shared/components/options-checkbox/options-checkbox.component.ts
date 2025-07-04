@@ -13,11 +13,11 @@ export class OptionsCheckboxComponent {
   checkboxOptions = input.required<CheckboxOptions>()
   options: Array<string> = []
   selectAllCheckbox = input<boolean>(false)
-  selectAllCheckboxLabel = input<string>('Select All')
   parentCheckbox = new FormControl(true)
 
   ngOnInit() {
     this.options = Object.keys(this.checkboxOptions())
+    this.parentCheckbox.setValue(this.allCheckboxesSelected(), { emitEvent: false })
     this.parentCheckbox.valueChanges.subscribe((value: boolean | null) => {
       if (value !== null) this.setAllCheckBoxes(value)
     })
@@ -29,7 +29,16 @@ export class OptionsCheckboxComponent {
     })
   }
 
+  selectAllCheckboxLabel() {
+    return this.parentCheckbox.value ? 'UnselectAll' : 'SelectAll';
+  }
+
+  allCheckboxesSelected(): boolean {
+    return this.options.every(key => this.checkboxOptions()[key].value)
+  }
+
   handleCheckbox(value: boolean) {
-    if (!value) this.parentCheckbox.setValue(false, { emitEvent: false })
+    const allSelected = value ? this.allCheckboxesSelected() : value;
+    this.parentCheckbox.setValue(allSelected, { emitEvent: false });
   }
 }
