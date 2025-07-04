@@ -15,10 +15,11 @@ import { CheckboxOptions } from './shared/interfaces/checkbox-options';
 import { CalculatorDisplayComponent } from './shared/components/calculator-display/calculator-display.component';
 import { ModeSelectorRadioComponent } from './shared/components/mode-selector-radio/mode-selector-radio.component';
 import { RadioGroup } from './shared/interfaces/radio-group';
+import { TimeTravelPanelComponent } from './shared/components/time-travel-panel/time-travel-panel.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LogoComponent, InputTextTestComponent, InputCheckTestComponent, TestSlidePanelComponent, TestChheckboxPanelComponent, DatepickerComponent, CalculatorButtonComponent, OptionsCheckboxComponent, CalculatorDisplayComponent, ModeSelectorRadioComponent],
+  imports: [RouterOutlet, LogoComponent, InputTextTestComponent, InputCheckTestComponent, TestSlidePanelComponent, TestChheckboxPanelComponent, DatepickerComponent, CalculatorButtonComponent, OptionsCheckboxComponent, CalculatorDisplayComponent, ModeSelectorRadioComponent, TimeTravelPanelComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
