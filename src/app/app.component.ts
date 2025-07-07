@@ -16,6 +16,7 @@ import { CalculatorDisplayComponent } from './shared/components/calculator-displ
 import { ModeSelectorRadioComponent } from './shared/components/mode-selector-radio/mode-selector-radio.component';
 import { RadioGroup } from './shared/interfaces/radio-group';
 import { TimeTravelPanelComponent } from './shared/components/time-travel-panel/time-travel-panel.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -46,7 +47,10 @@ export class AppComponent {
       value: 'date-travel'
     }
   ]
+  goingFuture = true;
 
+  testMaxValue = 10
+  testNumberInput = new FormControl<number>(0, [Validators.max(100), Validators.min(-100)]);
   setLimitDates(date: Date | undefined, n: number): Date | undefined {
     return date ? dateCalculator.addDays(date, n, false) : date
   }
