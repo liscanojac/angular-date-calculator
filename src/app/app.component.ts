@@ -50,7 +50,7 @@ export class AppComponent {
   goingFuture = true;
 
   testMaxValue = 10
-  testNumberInput = new FormControl<number>(0, [Validators.max(100), Validators.min(-100)]);
+  testNumberInput = new FormControl<string>('0', [Validators.max(100), Validators.min(-100)]);
   setLimitDates(date: Date | undefined, n: number): Date | undefined {
     return date ? dateCalculator.addDays(date, n, false) : date
   }

@@ -13,7 +13,7 @@ import { TimeTravelOptions } from '../../interfaces/time-travel-options';
 export class TimeTravelPanelComponent {
 
   timeTravelDirection = model.required<boolean>();
-  inputNumber = input.required<FormControl<number | null>>();
+  inputNumber = input.required<FormControl<string | null>>();
   inputLimits = input<TimeTravelOptions>();
   
 
