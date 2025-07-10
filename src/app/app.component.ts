@@ -17,10 +17,12 @@ import { ModeSelectorRadioComponent } from './shared/components/mode-selector-ra
 import { RadioGroup } from './shared/interfaces/radio-group';
 import { TimeTravelPanelComponent } from './shared/components/time-travel-panel/time-travel-panel.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DateTravelOptions, TimeTravelOptions } from './shared/interfaces/time-travel-options';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LogoComponent, InputTextTestComponent, InputCheckTestComponent, TestSlidePanelComponent, TestChheckboxPanelComponent, DatepickerComponent, CalculatorButtonComponent, OptionsCheckboxComponent, CalculatorDisplayComponent, ModeSelectorRadioComponent, TimeTravelPanelComponent],
+  imports: [RouterOutlet, LogoComponent, InputTextTestComponent, InputCheckTestComponent, TestSlidePanelComponent, TestChheckboxPanelComponent, DatepickerComponent, CalculatorButtonComponent, OptionsCheckboxComponent, CalculatorDisplayComponent, ModeSelectorRadioComponent, TimeTravelPanelComponent, JsonPipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -51,6 +53,30 @@ export class AppComponent {
 
   testMaxValue = 10
   testNumberInput = new FormControl<string>('0', [Validators.max(100), Validators.min(-100)]);
+  dateTravelOptions = new FormGroup<DateTravelOptions>({
+    y: new FormControl<number>(0, [Validators.min(0), Validators.max(10)]),
+    m_d: new FormControl<number>(0, [Validators.min(0)]),
+    w_d: new FormControl<number>(0, [Validators.min(0)]),
+    d: new FormControl<number>(0, [Validators.min(0)])
+  });
+  inputLimits: TimeTravelOptions = {
+    y: {
+      max: 10,
+      min: 0,
+    },
+    m_d: {
+      max: 10,
+      min: 0,
+    },
+    w_d: {
+      max: 10,
+      min: 0,
+    },
+    d: {
+      max: 10,
+      min: 0,
+    }
+  }
   setLimitDates(date: Date | undefined, n: number): Date | undefined {
     return date ? dateCalculator.addDays(date, n, false) : date
   }
