@@ -1,0 +1,25 @@
+.mat-mdc-fab {
+  box-shadow: none !important;
+  /* --mat-fab-container-color: transparent; */
+}
+
+.remove-button {
+  --mat-fab-container-color: #FFEBEE;
+}
+
+.grid.grid-cols-2 button.mat-fab {
+  border-radius: 4px !important;
+    /* Make it rectangular */
+    height: auto !important;
+    /* Allow height to adjust */
+    width: 100% !important;
+    /* Make it full width */
+    min-width: unset !important;
+    /* Override min-width if present */
+    padding: 8px 16px !important;
+    /* Add some padding */
+    display: flex !important;
+    /* Use flex to center content */
+    justify-content: center !important;
+    align-items: center !important;
+}
