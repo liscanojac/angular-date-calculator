@@ -17,7 +17,7 @@ export class TimeInputComponent {
   // if you set an input to be optionally undefined if its not passed a value, then it will take the default you set
   min = input<number>(0);
   max = input<number>(1000);
-  inputLabel = input<string>('Label');
+  inputLabel = input<string>('');
 
   validateInput(event: Event) {
     const inputElement = event.target as HTMLInputElement;
@@ -43,7 +43,6 @@ export class TimeInputComponent {
     this.inputNumber().markAsTouched();
     if ((this.inputNumber().value === null || this.inputNumber().value === undefined) &&
         (this.inputNumber().dirty || this.inputNumber().touched)) {
-        // this.inputNumber().setValue(0, { emitEvent: false, onlySelf: true });
         this.clearInput();
     }
   }
