@@ -14,7 +14,7 @@ import { OptionsCheckboxComponent } from './shared/components/options-checkbox/o
 import { CheckboxOptions } from './shared/interfaces/checkbox-options';
 import { CalculatorDisplayComponent } from './shared/components/calculator-display/calculator-display.component';
 import { ModeSelectorRadioComponent } from './shared/components/mode-selector-radio/mode-selector-radio.component';
-import { RadioGroup } from './shared/interfaces/radio-group';
+import { CalculatorMode, RadioGroup } from './shared/interfaces/radio-group';
 import { TimeTravelPanelComponent } from './shared/components/time-travel-panel/time-travel-panel.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateTravelOptions, TimeTravelOptions } from './shared/interfaces/time-travel-options';
@@ -30,6 +30,14 @@ export class AppComponent {
   title = 'date-calculator-angular';
   testInputText = 'test'
   testInputCheck = false
+  dateInputLabel = {
+    start: {
+      placeholder: 'Start Date'
+    },
+    end: {
+      placeholder: 'End Date'
+    }
+  }
   startDate: Date | undefined = undefined;
   endDate: Date | undefined = undefined;
   timeDifference: DateDifferenceObject = {
@@ -38,7 +46,7 @@ export class AppComponent {
     w_d: '',
     d: ''
   }
-  calculatorMode = 'date-difference'
+  calculatorMode: CalculatorMode = 'date-difference'
   modeOptions: RadioGroup = [
     {
       label: 'Date Difference',
@@ -50,30 +58,32 @@ export class AppComponent {
     }
   ]
   goingFuture = true;
+  maxTimeInputValue = 1000
 
   testMaxValue = 10
   testNumberInput = new FormControl<string>('0', [Validators.max(100), Validators.min(-100)]);
   dateTravelOptions = new FormGroup<DateTravelOptions>({
-    y: new FormControl<number>(0, [Validators.min(0), Validators.max(10)]),
-    m_d: new FormControl<number>(0, [Validators.min(0)]),
-    w_d: new FormControl<number>(0, [Validators.min(0)]),
-    d: new FormControl<number>(0, [Validators.min(0)])
+    years: new FormControl<number>(0, [Validators.min(0), Validators.max(this.maxTimeInputValue)]),
+    months: new FormControl<number>(0, [Validators.min(0), Validators.max(this.maxTimeInputValue)]),
+    weeks: new FormControl<number>(0, [Validators.min(0), Validators.max(this.maxTimeInputValue)]),
+    days: new FormControl<number>(0, [Validators.min(0), Validators.max(this.maxTimeInputValue)])
   });
+
   inputLimits: TimeTravelOptions = {
-    y: {
-      max: 10,
+    years: {
+      max: this.maxTimeInputValue,
       min: 0,
     },
-    m_d: {
-      max: 10,
+    months: {
+      max: this.maxTimeInputValue,
       min: 0,
     },
-    w_d: {
-      max: 10,
+    weeks: {
+      max: this.maxTimeInputValue,
       min: 0,
     },
-    d: {
-      max: 10,
+    days: {
+      max: this.maxTimeInputValue,
       min: 0,
     }
   }
@@ -115,7 +125,10 @@ export class AppComponent {
   }
 
   calculatorBtnEnabled(): boolean {
-    return !!this.startDate && !!this.endDate && this.dateDifferenceOptionSelected()
+    if (this.calculatorMode === 'date-travel') {
+      return !!this.startDate && this.dateDifferenceOptionSelected() && this.dateTravelOptionSelected();
+    }
+    return !!this.startDate && !!this.endDate && this.dateDifferenceOptionSelected();
   }
 
   dateDifferenceOptionSelected(): boolean {
@@ -123,6 +136,16 @@ export class AppComponent {
       if (this.dateDifferenceOptions[key].value) return true
     }
     return false
+  }
+
+  dateTravelOptionSelected(): boolean {
+    for (const option in this.dateTravelOptions.controls) {
+      const controlOption = this.dateTravelOptions.get(option);
+      if (!!controlOption?.value) {
+        return true;
+      };
+    }
+    return false;
   }
 
   handleTextInputChange(newInput: string) {
@@ -133,8 +156,17 @@ export class AppComponent {
     this.testInputCheck = newVal
   }
   testFunct() {
-    if (this.startDate && this.endDate) {
-      this.timeDifference = dateCalculator.getTimeDifference(this.startDate, this.endDate, this.getDateOptions())
+    // if (this.startDate && this.endDate) {
+    //   this.timeDifference = dateCalculator.getTimeDifference(this.startDate, this.endDate, this.getDateOptions())
+    // }
+    if (this.calculatorBtnEnabled()) {
+      if (this.calculatorMode === 'date-travel') {
+      //   const travelledDate = dateCalculator.getTimeTravelDate(this.startDate!.toString(), {
+      //     ...this.dateTravelOptions.value,
+      //     past: !this.goingFuture
+      //   })
+      }
+      // this.timeDifference = dateCalculator.getTimeDifference(this.startDate!, this.endDate!, this.getDateOptions())
     }
   }
 }
