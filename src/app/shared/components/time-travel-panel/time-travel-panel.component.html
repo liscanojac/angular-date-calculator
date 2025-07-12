@@ -1,6 +1,4 @@
 <app-time-slider [(timeDirection)]="timeTravelDirection" />
-<!-- <app-number-input [inputValue]="inputNumber()" /> -->
-<app-time-input [inputNumber]="timeTravelOptions().controls.y" [max]="inputLimits()?.y?.max!" />
-<!-- @for (timeTravelOption of timeTravelOptionsFormControls; track $index) {
-<app-time-input [inputValue]="timeTravelOptions().controls[timeTravelOption]" />
-} -->
+@for (option of timeTravelOptionsFormControls; track $index) {
+<app-time-input [inputNumber]="timeTravelOptionsModel().controls[option]" [inputLabel]="option" />
+}
