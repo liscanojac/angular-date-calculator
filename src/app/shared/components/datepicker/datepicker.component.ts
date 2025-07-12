@@ -21,6 +21,7 @@ export class DatepickerComponent {
   inputLabel = input<DatepickerLabel>()
   minDate = input<Date>()
   maxDate = input<Date>()
+  inputDisabled = input<boolean>(false)
 
   updateDateInput = output<Date>()
   

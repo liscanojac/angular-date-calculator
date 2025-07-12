@@ -1,6 +1,6 @@
 <mat-form-field>
   <mat-label>{{ label.placeholder }}</mat-label>
-  <input matInput [min]="minDate()" [max]="maxDate()" [matDatepicker]="picker" [ngModel]="dateInput()" (ngModelChange)="updateDateInput.emit($event)">
+  <input matInput [disabled]="inputDisabled()" [min]="minDate()" [max]="maxDate()" [matDatepicker]="picker" [ngModel]="dateInput()" (ngModelChange)="updateDateInput.emit($event)">
   @if (label.showHint) {
   <mat-hint>{{ label.hint }}</mat-hint>
   }
