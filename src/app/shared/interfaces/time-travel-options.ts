@@ -6,11 +6,11 @@ interface TimeOption {
 
 export type TimeTravelKey = 'years' | 'months' | 'weeks' | 'days'
 
-export type TimeTravelOptions = {
+export type TimeTravelOptionLimits = {
   [key in TimeTravelKey]: TimeOption
 }
 
 
 export type DateTravelOptions = {
-  [key in TimeTravelKey]: FormControl<number | null>
+  [key in TimeTravelKey]: FormControl<number>
 }

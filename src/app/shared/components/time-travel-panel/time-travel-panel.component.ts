@@ -1,7 +1,7 @@
 import { Component, input, model } from '@angular/core';
 import { TimeSliderComponent } from "../time-slider/time-slider.component";
 import { FormControl, FormGroup } from '@angular/forms';
-import { DateTravelOptions, TimeTravelKey, TimeTravelOptions } from '../../interfaces/time-travel-options';
+import { DateTravelOptions, TimeTravelKey, TimeTravelOptionLimits } from '../../interfaces/time-travel-options';
 import { TimeInputComponent } from "../time-input/time-input.component";
 
 @Component({
@@ -14,7 +14,7 @@ export class TimeTravelPanelComponent {
 
   timeTravelDirection = model.required<boolean>();
   inputNumber = input.required<FormControl<string | null>>();
-  timeTravelOptions = input<TimeTravelOptions>();
+  timeTravelOptions = input<TimeTravelOptionLimits>();
   timeTravelOptionsModel = input.required<FormGroup<DateTravelOptions>>();
   
   timeTravelOptionsFormControls: Array<keyof DateTravelOptions> = [];
