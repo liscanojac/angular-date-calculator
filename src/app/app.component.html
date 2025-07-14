@@ -189,7 +189,7 @@
       <p>goingFuture: {{ goingFuture }}</p>
       <p>Value of y in dateTravelOptions:{{ dateTravelOptions.controls.years.value }}</p>
       <pre>Value of y in dateTravelOptions:{{ dateTravelOptions.value | json }}</pre>
-      <app-calculator-button [disabled]="!calculatorBtnEnabled()" (clickAction)="testFunct()" />
+      <app-calculator-button [disabled]="!calculatorBtnEnabled()" (clickAction)="calculate()" />
       @if (false) {
       <app-input-text-test [inputValue]="testInputText" (inputChange)="handleTextInputChange($event)" />
       <p>testInputText: {{ testInputText }}</p>

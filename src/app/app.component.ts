@@ -8,7 +8,7 @@ import { TestSlidePanelComponent } from './shared/components/test-slide-panel/te
 import { TestChheckboxPanelComponent } from './shared/components/test-chheckbox-panel/test-chheckbox-panel.component';
 import { DatepickerComponent } from './shared/components/datepicker/datepicker.component';
 import { CalculatorButtonComponent } from './shared/components/calculator-button/calculator-button.component';
-import { DateDifferenceObject, DateOptions } from './shared/services/date-calculator/src/interfaces/date-calculator';
+import { DateDifferenceObject, DateOptions, TimeTravelOptions } from './shared/services/date-calculator/src/interfaces/date-calculator';
 import { dateCalculator } from './shared/services/dateCalculatorInstance';
 import { OptionsCheckboxComponent } from './shared/components/options-checkbox/options-checkbox.component';
 import { CheckboxOptions } from './shared/interfaces/checkbox-options';
@@ -17,7 +17,7 @@ import { ModeSelectorRadioComponent } from './shared/components/mode-selector-ra
 import { CalculatorMode, RadioGroup } from './shared/interfaces/radio-group';
 import { TimeTravelPanelComponent } from './shared/components/time-travel-panel/time-travel-panel.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DateTravelOptions, TimeTravelOptions } from './shared/interfaces/time-travel-options';
+import { DateTravelOptions, TimeTravelOptionLimits } from './shared/interfaces/time-travel-options';
 import { JsonPipe } from '@angular/common';
 
 @Component({
@@ -59,17 +59,30 @@ export class AppComponent {
   ]
   goingFuture = true;
   maxTimeInputValue = 1000
+  testTravelledDate = '' 
 
   testMaxValue = 10
   testNumberInput = new FormControl<string>('0', [Validators.max(100), Validators.min(-100)]);
   dateTravelOptions = new FormGroup<DateTravelOptions>({
-    years: new FormControl<number>(0, [Validators.min(0), Validators.max(this.maxTimeInputValue)]),
-    months: new FormControl<number>(0, [Validators.min(0), Validators.max(this.maxTimeInputValue)]),
-    weeks: new FormControl<number>(0, [Validators.min(0), Validators.max(this.maxTimeInputValue)]),
-    days: new FormControl<number>(0, [Validators.min(0), Validators.max(this.maxTimeInputValue)])
+    years: new FormControl<number>(0, { 
+      nonNullable: true,
+      validators: [Validators.min(0), Validators.max(this.maxTimeInputValue)]
+    }),
+    months: new FormControl<number>(0, { 
+      nonNullable: true,
+      validators: [Validators.min(0), Validators.max(this.maxTimeInputValue)]
+    }),
+    weeks: new FormControl<number>(0, { 
+      nonNullable: true,
+      validators: [Validators.min(0), Validators.max(this.maxTimeInputValue)]
+    }),
+    days: new FormControl<number>(0, { 
+      nonNullable: true,
+      validators: [Validators.min(0), Validators.max(this.maxTimeInputValue)]
+    })
   });
 
-  inputLimits: TimeTravelOptions = {
+  inputLimits: TimeTravelOptionLimits = {
     years: {
       max: this.maxTimeInputValue,
       min: 0,
@@ -155,18 +168,30 @@ export class AppComponent {
   handleInputCheckChange(newVal: boolean) {
     this.testInputCheck = newVal
   }
-  testFunct() {
-    // if (this.startDate && this.endDate) {
-    //   this.timeDifference = dateCalculator.getTimeDifference(this.startDate, this.endDate, this.getDateOptions())
-    // }
-    if (this.calculatorBtnEnabled()) {
+  private getTimeTravelOptions(): TimeTravelOptions {
+    return {
+      years: this.dateTravelOptions.get('years')?.value ?? 0,
+      months: this.dateTravelOptions.get('months')?.value ?? 0,
+      weeks: this.dateTravelOptions.get('weeks')?.value ?? 0,
+      days: this.dateTravelOptions.get('days')?.value ?? 0,
+      past: !this.goingFuture,
+    };
+  }
+
+  calculate() {
+    const startDate = this.startDate;
+    const endDate = this.endDate;
+
+    if (this.calculatorBtnEnabled() && startDate) {
+
       if (this.calculatorMode === 'date-travel') {
-      //   const travelledDate = dateCalculator.getTimeTravelDate(this.startDate!.toString(), {
-      //     ...this.dateTravelOptions.value,
-      //     past: !this.goingFuture
-      //   })
+
+        this.testTravelledDate = dateCalculator.getTimeTravelDate(startDate, this.getTimeTravelOptions())
       }
-      // this.timeDifference = dateCalculator.getTimeDifference(this.startDate!, this.endDate!, this.getDateOptions())
+      if (endDate) {
+        this.timeDifference = dateCalculator.getTimeDifference(startDate, endDate, this.getDateOptions())
+      }
     }
   }
+
 }
