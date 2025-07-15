@@ -179,7 +179,7 @@
   <div class="content">
     <div class="left-side">
       <app-logo></app-logo>
-      <app-mode-selector-radio [options]="modeOptions" (radioOptionChanged)="calculatorMode = $event" [selectedOption]="calculatorMode" />
+      <app-mode-selector-radio [options]="modeOptions" (radioOptionChanged)="calculatorModeHandler($event)" [selectedOption]="calculatorMode" />
       <app-calculator-display [dateDifference]="timeDifference" [dateOptions]="getDateOptions()" />
       <app-datepicker [dateInput]="startDate" [inputLabel]="dateInputLabel.start" (updateDateInput)="startDate = $event" [maxDate]="setLimitDates(endDate, -1)" />
       <app-datepicker [dateInput]="endDate" [inputLabel]="dateInputLabel.end" [inputDisabled]="calculatorMode === 'date-travel'" (updateDateInput)="endDate =  $event" [minDate]="setLimitDates(startDate, 1)" />

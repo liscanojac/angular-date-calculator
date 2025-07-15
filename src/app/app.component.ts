@@ -19,6 +19,7 @@ import { TimeTravelPanelComponent } from './shared/components/time-travel-panel/
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateTravelOptions, TimeTravelOptionLimits } from './shared/interfaces/time-travel-options';
 import { JsonPipe } from '@angular/common';
+import { CalculatorResult } from './shared/interfaces/calculator-result';
 
 @Component({
   selector: 'app-root',
@@ -59,7 +60,19 @@ export class AppComponent {
   ]
   goingFuture = true;
   maxTimeInputValue = 1000
-  testTravelledDate = '' 
+  testTravelledDate = ''
+
+  result: CalculatorResult = {
+    startDate: '',
+    endDate: '',
+    goingFuture: true,
+    dateTravelOptions: {
+      years: 0,
+      months: 0,
+      weeks: 0,
+      days: 0,
+    },
+  }
 
   testMaxValue = 10
   testNumberInput = new FormControl<string>('0', [Validators.max(100), Validators.min(-100)]);
@@ -168,6 +181,7 @@ export class AppComponent {
   handleInputCheckChange(newVal: boolean) {
     this.testInputCheck = newVal
   }
+  
   private getTimeTravelOptions(): TimeTravelOptions {
     return {
       years: this.dateTravelOptions.get('years')?.value ?? 0,
@@ -176,6 +190,11 @@ export class AppComponent {
       days: this.dateTravelOptions.get('days')?.value ?? 0,
       past: !this.goingFuture,
     };
+  }
+
+  calculatorModeHandler(newMode: CalculatorMode) {
+    this.calculatorMode = newMode;
+    this.resetValues();
   }
 
   calculate() {
@@ -194,4 +213,45 @@ export class AppComponent {
     }
   }
 
+  private resetValues() {
+    this.startDate = undefined;
+    this.endDate = undefined;
+    this.dateDifferenceOptions = {
+      y_m_d: {
+        value: true,
+        label: 'Years, Months, Days'
+      },
+      m_d: {
+        value: true,
+        label: 'Months and Days'
+      },
+      w_d: {
+        value: true,
+        label: 'Weeks and Days'
+      },
+      d: {
+        value: true,
+        label: 'Days'
+      },
+    };
+    this.dateTravelOptions.reset();
+    this.timeDifference = {
+      y_m_d: '',
+      m_d: '',
+      w_d: '',
+      d: ''
+    };
+    this.testTravelledDate = '';
+    this.result = {
+      startDate: '',
+      endDate: '',
+      goingFuture: true,
+      dateTravelOptions: {
+        years: 0,
+        months: 0,
+        weeks: 0,
+        days: 0,
+      },
+    }
+  }
 }
