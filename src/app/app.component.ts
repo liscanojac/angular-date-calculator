@@ -8,7 +8,7 @@ import { TestSlidePanelComponent } from './shared/components/test-slide-panel/te
 import { TestChheckboxPanelComponent } from './shared/components/test-chheckbox-panel/test-chheckbox-panel.component';
 import { DatepickerComponent } from './shared/components/datepicker/datepicker.component';
 import { CalculatorButtonComponent } from './shared/components/calculator-button/calculator-button.component';
-import { DateDifferenceObject, DateOptions, TimeTravelOptions } from './shared/services/date-calculator/src/interfaces/date-calculator';
+import { DateDifferenceObject, DateOptions, TimeTravelOptions, TimeTravelOptionsBase } from './shared/services/date-calculator/src/interfaces/date-calculator';
 import { dateCalculator } from './shared/services/dateCalculatorInstance';
 import { OptionsCheckboxComponent } from './shared/components/options-checkbox/options-checkbox.component';
 import { CheckboxOptions } from './shared/interfaces/checkbox-options';
@@ -65,13 +65,20 @@ export class AppComponent {
   result: CalculatorResult = {
     startDate: '',
     endDate: '',
-    goingFuture: true,
+    goingFuture: this.goingFuture,
+    mode: this.calculatorMode,
     dateTravelOptions: {
       years: 0,
       months: 0,
       weeks: 0,
       days: 0,
     },
+    dateDifference: {
+      y_m_d: '',
+      m_d: '',
+      d: '',
+      w_d: '',
+    }
   }
 
   testMaxValue = 10
@@ -142,10 +149,10 @@ export class AppComponent {
 
   getDateOptions(): DateOptions {
     const dateOptions: DateOptions = {
-      y_m_d: this.dateDifferenceOptions['y_m_d']['value'],
-      m_d: this.dateDifferenceOptions['m_d']['value'],
-      w_d: this.dateDifferenceOptions['w_d']['value'],
-      d: this.dateDifferenceOptions['d']['value'],
+      y_m_d: this.dateDifferenceOptions['y_m_d'].value,
+      m_d: this.dateDifferenceOptions['m_d'].value,
+      w_d: this.dateDifferenceOptions['w_d'].value,
+      d: this.dateDifferenceOptions['d'].value,
     }
     return dateOptions
   }
@@ -182,13 +189,12 @@ export class AppComponent {
     this.testInputCheck = newVal
   }
   
-  private getTimeTravelOptions(): TimeTravelOptions {
+  private getTimeTravelOptions(): TimeTravelOptionsBase {
     return {
       years: this.dateTravelOptions.get('years')?.value ?? 0,
       months: this.dateTravelOptions.get('months')?.value ?? 0,
       weeks: this.dateTravelOptions.get('weeks')?.value ?? 0,
       days: this.dateTravelOptions.get('days')?.value ?? 0,
-      past: !this.goingFuture,
     };
   }
 
@@ -202,13 +208,23 @@ export class AppComponent {
     const endDate = this.endDate;
 
     if (this.calculatorBtnEnabled() && startDate) {
-
+      this.result.mode = this.calculatorMode;
+      this.result.startDate = dateCalculator.formatDateToDisplay(startDate);
       if (this.calculatorMode === 'date-travel') {
 
-        this.testTravelledDate = dateCalculator.getTimeTravelDate(startDate, this.getTimeTravelOptions())
+        this.result.dateTravelOptions = this.getTimeTravelOptions();
+        const travelledDate = dateCalculator.getTimeTravelDate(startDate, {
+          ...this.result.dateTravelOptions,
+          past: !this.goingFuture
+        });
+        this.testTravelledDate = travelledDate;
+        this.result.endDate = dateCalculator.formatDateToDisplay(travelledDate);
+        this.result.goingFuture = this.goingFuture;
       }
       if (endDate) {
+        this.result.endDate = dateCalculator.formatDateToDisplay(endDate);
         this.timeDifference = dateCalculator.getTimeDifference(startDate, endDate, this.getDateOptions())
+        this.result.dateDifference = this.timeDifference;
       }
     }
   }
@@ -245,6 +261,7 @@ export class AppComponent {
     this.result = {
       startDate: '',
       endDate: '',
+      mode: this.calculatorMode,
       goingFuture: true,
       dateTravelOptions: {
         years: 0,
@@ -252,6 +269,12 @@ export class AppComponent {
         weeks: 0,
         days: 0,
       },
+      dateDifference: {
+        y_m_d: '',
+        m_d: '',
+        w_d: '',
+        d: ''
+      }
     }
   }
 }
