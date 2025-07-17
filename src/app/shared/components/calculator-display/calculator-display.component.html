@@ -1,6 +1,8 @@
-<p>calculator-display works!</p>
-@for (key of dateDifferenceKeys; track key) {
-@if (dateOptions()[key]) {
-<p>{{ dateDifference()[key] }}</p>
+<p>{{ getResultHeader() }}</p>
+@if (result().mode === 'date-difference') {
+@for (key of dateDifferenceOptions; track key) {
+@if (result().dateDifference[key]) {
+<p>{{ result().dateDifference[key] }}</p>
+}
 }
 }
