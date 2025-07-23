@@ -186,9 +186,9 @@
       @if (calculatorMode === 'date-travel') {
       <app-time-travel-panel [(timeTravelDirection)]="goingFuture" [inputNumber]="testNumberInput" [timeTravelOptionsModel]="dateTravelOptions" [timeTravelOptions]="inputLimits"></app-time-travel-panel>
       }
-      <p>goingFuture: {{ goingFuture }}</p>
-      <p>Value of y in dateTravelOptions:{{ dateTravelOptions.controls.years.value }}</p>
-      <pre>Value of y in dateTravelOptions:{{ dateTravelOptions.value | json }}</pre>
+      <p>has dataChanged? {{ calculatorBtnEnabled()}}</p>
+      <pre>calculated:{{ calculated | json }}</pre>
+
       <app-calculator-button [disabled]="!calculatorBtnEnabled()" (clickAction)="calculate()" />
       @if (false) {
       <app-input-text-test [inputValue]="testInputText" (inputChange)="handleTextInputChange($event)" />

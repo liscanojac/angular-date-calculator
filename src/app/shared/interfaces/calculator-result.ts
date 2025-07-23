@@ -1,4 +1,4 @@
-import { DateDifferenceObject, DateOptions, TimeTravelOptionsBase } from "../services/date-calculator/src/interfaces/date-calculator";
+import { DateDifferenceObject, DateOptions, TimeTravelOptions, TimeTravelOptionsBase } from "../services/date-calculator/src/interfaces/date-calculator";
 import { CalculatorMode } from "./radio-group";
 
 export interface CalculatorResult {
@@ -8,4 +8,11 @@ export interface CalculatorResult {
   goingFuture: boolean,
   dateTravelOptions: TimeTravelOptionsBase,
   dateDifference: DateDifferenceObject,
+}
+
+export interface CalculatedData {
+  startDate: Date | undefined,
+  endDate: Date | undefined,
+  dateDifferenceOptions: DateOptions,
+  timeTravelOptions: TimeTravelOptions
 }

@@ -19,7 +19,7 @@ import { TimeTravelPanelComponent } from './shared/components/time-travel-panel/
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateTravelOptions, TimeTravelOptionLimits } from './shared/interfaces/time-travel-options';
 import { JsonPipe } from '@angular/common';
-import { CalculatorResult } from './shared/interfaces/calculator-result';
+import { CalculatedData, CalculatorResult } from './shared/interfaces/calculator-result';
 
 @Component({
   selector: 'app-root',
@@ -61,6 +61,24 @@ export class AppComponent {
   goingFuture = true;
   maxTimeInputValue = 1000
   testTravelledDate = ''
+
+  calculated: CalculatedData = {
+    startDate: undefined,
+    endDate: undefined,
+    dateDifferenceOptions: {
+      y_m_d: false,
+      m_d: false,
+      w_d: false,
+      d: false,
+    },
+    timeTravelOptions: {
+      years: 0,
+      months: 0,
+      weeks: 0,
+      days: 0,
+      past: false
+    }
+  }
 
   result: CalculatorResult = {
     startDate: '',
@@ -157,11 +175,39 @@ export class AppComponent {
     return dateOptions
   }
 
+  // calculatorBtnEnabled(): boolean {
+  //   if (this.calculatorMode === 'date-travel') {
+
+
+  //     return this.calculated.startDate ? this.hasDataChanged() : !!this.startDate && this.dateDifferenceOptionSelected() && this.dateTravelOptionSelected();
+  //   }
+  //   return !!this.startDate && !!this.endDate && this.dateDifferenceOptionSelected();
+  // }
+
   calculatorBtnEnabled(): boolean {
-    if (this.calculatorMode === 'date-travel') {
-      return !!this.startDate && this.dateDifferenceOptionSelected() && this.dateTravelOptionSelected();
+    if(!!this.startDate){
+      if (!!this.calculated.startDate) {
+        if (this.calculatorMode === 'date-travel') {
+          const currentTimeTravelOptions = this.getTimeTravelOptions();
+          return !((this.startDate.getTime() === this.calculated.startDate.getTime()) && (currentTimeTravelOptions.years === this.calculated.timeTravelOptions.years) &&
+          (currentTimeTravelOptions.months === this.calculated.timeTravelOptions.months) &&
+          (currentTimeTravelOptions.weeks === this.calculated.timeTravelOptions.weeks) &&
+          (currentTimeTravelOptions.days === this.calculated.timeTravelOptions.days) &&
+          (!this.goingFuture === this.calculated.timeTravelOptions.past));
+        }
+        const currentDateDifferenceOptions = this.getDateOptions();
+        return !(!!this.startDate && !!this.endDate && !!this.calculated.endDate && (this.startDate.getTime() === this.calculated.startDate.getTime()) && (this.endDate.getTime() === this.calculated.endDate.getTime()) && this.dateDifferenceOptionSelected() &&
+        (currentDateDifferenceOptions.y_m_d === this.calculated.dateDifferenceOptions.y_m_d) &&
+        (currentDateDifferenceOptions.m_d === this.calculated.dateDifferenceOptions.m_d) &&
+        (currentDateDifferenceOptions.w_d === this.calculated.dateDifferenceOptions.w_d) &&
+        (currentDateDifferenceOptions.d === this.calculated.dateDifferenceOptions.d));
+      }
+      if (this.calculatorMode === 'date-travel') {
+        return this.dateDifferenceOptionSelected() && this.dateTravelOptionSelected();
+      }
+      return !!this.endDate && this.dateDifferenceOptionSelected();
     }
-    return !!this.startDate && !!this.endDate && this.dateDifferenceOptionSelected();
+    return false;
   }
 
   dateDifferenceOptionSelected(): boolean {
@@ -226,7 +272,18 @@ export class AppComponent {
         this.timeDifference = dateCalculator.getTimeDifference(startDate, endDate, this.getDateOptions())
         this.result.dateDifference = this.timeDifference;
       }
+      this.setCalculatedData()
     }
+  }
+
+  private setCalculatedData() {
+    this.calculated.startDate = this.startDate;
+    this.calculated.endDate = this.endDate;
+    this.calculated.timeTravelOptions = {
+      ...this.getTimeTravelOptions(),
+      past: !this.goingFuture,
+    }
+    this.calculated.dateDifferenceOptions = this.getDateOptions();
   }
 
   private resetValues() {
